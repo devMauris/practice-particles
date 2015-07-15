@@ -40,13 +40,14 @@ int EngineInit(Engine* engine, int argc, char* args[]) //initialize SDL in main 
         return 1;
     }
     free(name);
+
     engine->gRenderer = SDL_CreateRenderer(engine->gWindow, -1, SDL_RENDERER_ACCELERATED);
     if(engine->gRenderer == NULL)
     {
         printf("Can't create renderer! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
-    SDL_SetRenderDrawColor(engine->gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_SetRenderDrawColor(engine->gRenderer, 0xAF, 0xAF, 0xAF, 0xFF);
 
     engine->done = false;
     return 0;
@@ -76,8 +77,11 @@ int EngineRun(Engine* engine)
                 engine->done = true;
             }
         }
-
+        SDL_SetRenderDrawColor(engine->gRenderer, 0xAF, 0xAF, 0xAF, 0xAF);
         SDL_RenderClear(engine->gRenderer);
+        SDL_Rect butt = {20, 20, 40, 40};
+        SDL_SetRenderDrawColor(engine->gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderFillRect(engine->gRenderer, &butt);
         SDL_RenderPresent(engine->gRenderer);
     }
     return 0;
