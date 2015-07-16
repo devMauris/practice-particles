@@ -14,6 +14,7 @@
 #include <SDL.h>
 
 #include "spec.h"
+#include "button.h"
 
 typedef struct
 {
