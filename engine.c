@@ -1,7 +1,7 @@
 //
 // Created by mauris on 14.07.2015.
 //
-#include "button.h"
+
 #include "engine.h"
 
 Engine* mainEngine; //to have access from every module;
@@ -65,21 +65,28 @@ int EngineQuit(Engine* engine)
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
-    ButtonClick(e);
-    while(!engine->done)
+    Button testButton;
+    ButtonInit(&testButton, 80, 80, 64, 64);
+
+    while(!engine->done) //main loop;
     {
+        //Handle events;
         while(SDL_PollEvent(&e) != 0)
         {
             if(e.type == SDL_QUIT)
             {
                 engine->done = true;
             }
+            ButtonHandle(&testButton, e);
         }
+        //----------------
         SDL_SetRenderDrawColor(engine->gRenderer, 0xAF, 0xAF, 0xAF, 0xAF);
         SDL_RenderClear(engine->gRenderer);
-        SDL_Rect butt = {20, 20, 40, 40};
-        SDL_SetRenderDrawColor(engine->gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-        SDL_RenderFillRect(engine->gRenderer, &butt);
+
+        //Render;
+        ButtonRender(&testButton);
+
+        //----------------
         SDL_RenderPresent(engine->gRenderer);
         SDL_Delay(16);
     }
