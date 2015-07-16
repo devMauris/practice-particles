@@ -3,6 +3,7 @@
 //
 
 #include "engine.h"
+#include "button.h"
 
 Engine* mainEngine; //to have access from every module;
 
@@ -31,7 +32,7 @@ int EngineInit(Engine* engine, int argc, char* args[]) //initialize SDL in main 
     strncat(name, spec_version, nameLength - strlen(name)- 1);
 
 
-    engine->gWindow = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, engine->width, engine->height, SDL_WINDOW_SHOWN);
+    engine->gWindow = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, engine->width, engine->height, SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
     if( engine->gWindow == NULL )
     {
         printf("Can't create window! SDL_Error: %s\n", SDL_GetError());
@@ -65,8 +66,8 @@ int EngineQuit(Engine* engine)
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
-    Button testButton;
-    ButtonInit(&testButton, 80, 80, 64, 64);
+    Button exitButton;
+    ButtonInit(&exitButton, engine->width-32, 0, 32, 24);
 
     while(!engine->done) //main loop;
     {
@@ -77,17 +78,23 @@ int EngineRun(Engine* engine)
             {
                 engine->done = true;
             }
-            ButtonHandle(&testButton, e);
+            ButtonHandle(&exitButton, e);
+
         }
         //----------------
+        //Update;
+
+        if(exitButton.clicked)
+            engine->done = true;
+
+        //----------------
+
+        //Render;
         SDL_SetRenderDrawColor(engine->gRenderer, 0xAF, 0xAF, 0xAF, 0xAF);
         SDL_RenderClear(engine->gRenderer);
 
-        if (testButton.click)
-            engine->done = true;
 
-        //Render;
-        ButtonRender(&testButton);
+        ButtonRender(&exitButton);
 
         //----------------
         SDL_RenderPresent(engine->gRenderer);

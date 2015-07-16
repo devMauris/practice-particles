@@ -11,7 +11,7 @@
 typedef struct
 {
     SDL_Rect area;
-    bool click;
+    bool clicked;
 } Button;
 
 extern int ButtonInit(Button *button, int x, int y, int w, int h);
