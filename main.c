@@ -7,7 +7,7 @@
 int main(int argc, char* args[])
 {
     mainEngine = malloc(sizeof(Engine));
-    EngineInit(mainEngine, argc, args);
+    EngineInit(mainEngine, argc, args);//init
 
     EngineRun(mainEngine);
 

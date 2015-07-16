@@ -1,7 +1,7 @@
 //
 // Created by mauris on 14.07.2015.
 //
-
+#include "button.h"
 #include "engine.h"
 
 Engine* mainEngine; //to have access from every module;
@@ -23,8 +23,6 @@ int EngineInit(Engine* engine, int argc, char* args[]) //initialize SDL in main 
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
-
-
 
     int nameLength = strlen(spec_productName) + strlen(spec_version) + 1;
     char *name = malloc(nameLength);
@@ -67,7 +65,7 @@ int EngineQuit(Engine* engine)
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
-
+    ButtonClick(e);
     while(!engine->done)
     {
         while(SDL_PollEvent(&e) != 0)
@@ -83,6 +81,7 @@ int EngineRun(Engine* engine)
         SDL_SetRenderDrawColor(engine->gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderFillRect(engine->gRenderer, &butt);
         SDL_RenderPresent(engine->gRenderer);
+        SDL_Delay(16);
     }
     return 0;
 }
