@@ -7,13 +7,15 @@ set(SOURCE_FILES
     engine.c
     spec.h
     spec.c
+    button.c
+    button.h
 )
 add_executable(summertime ${SOURCE_FILES})
 
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -std=c99")
 IF(MINGW)
-	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 ENDIF(MINGW)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
