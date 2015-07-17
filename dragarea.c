@@ -5,12 +5,13 @@
 #include "dragarea.h"
 #include "engine.h"
 
-int DragAreaInit(DragArea *dragArea, int x, int y, int w, int h)
+int DragAreaInit(DragArea *dragArea, int x, int y, int w, int h, int color)
 {
     dragArea->area.x = x;
     dragArea->area.y = y;
     dragArea->area.w = w;
     dragArea->area.h = h;
+    dragArea->color = color;
     dragArea->dragging = dragArea->dragged = false;
 
     return 0;
@@ -69,15 +70,20 @@ int DragAreaHandle(DragArea *dragArea, SDL_Event e)
 
 int DragAreaRender(DragArea *dragArea)
 {
-    SDL_SetRenderDrawColor(mainEngine->gRenderer, 0x4E, 0x9B, 0x4E, 0x9B);
+    SDL_SetRenderDrawColor(mainEngine->gRenderer,
+                           (uint8_t) (dragArea->color>>24),
+                           (uint8_t) (dragArea->color>>16),
+                           (uint8_t) (dragArea->color>>8),
+                           (uint8_t) (dragArea->color));
     SDL_RenderFillRect(mainEngine->gRenderer, &dragArea->area);
 
-    /*
+
     if (dragArea->dragged)
     {
         SDL_SetRenderDrawColor(mainEngine->gRenderer, 0x4E, 0xFF, 0x4E, 0x9B);
-        SDL_RenderDrawLine(mainEngine->gRenderer, dragArea->drag_begin.x, dragArea->drag_begin.y, dragArea->drag_end.x, dragArea->drag_end.y);
-    }*/
-
+        SDL_RenderDrawLine(mainEngine->gRenderer,
+                           dragArea->drag_begin.x, dragArea->drag_begin.y,
+                           dragArea->drag_end.x, dragArea->drag_end.y);
+    }
     return 0;
 }

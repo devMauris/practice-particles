@@ -15,19 +15,20 @@
 
 #include "spec.h"
 #include "button.h"
+#include "dragarea.h"
 
 typedef struct
 {
     SDL_Window *gWindow;
     SDL_Renderer* gRenderer;
-    int width, height, r, g, b;
+    int width, height, bgcolor;
     bool done;
 } Engine;
 
 extern int EngineInit(Engine* engine, int argc, char* args[]); //initialize SDL in main thread
 extern int EngineQuit(Engine* engine);
 extern int EngineRun(Engine* engine);
-extern int ChangeColorBack(Engine *e, int r, int g, int b);
+extern int EngineChangeBackgroundColor(Engine *engine, int color);
 
 extern Engine* mainEngine; //to have access from every module;
 #endif //SUMMERTIME_ENGINE_H

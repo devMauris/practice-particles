@@ -12,13 +12,13 @@ typedef struct
 {
     SDL_Rect area;
     bool clicked;
-    int a, b, c;
+    int color;
 } Button;
 
-extern int ButtonInit(Button *button, int x, int y, int w, int h);
+extern int ButtonInit(Button *button, int x, int y, int w, int h, int color);
 extern int ButtonRender(Button *button);
 extern int ButtonHandle(Button *button, SDL_Event event);
-extern int ChangeColorButton(Button *but, int r, int g, int b);
+extern int ButtonSetColor(Button *but, int color);
 
 
 #endif //SUMMERTIME_BUTTON_H

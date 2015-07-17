@@ -18,9 +18,7 @@ int EngineInit(Engine* engine, int argc, char* args[]) //initialize SDL in main 
 
     engine->width = 640;
     engine->height = 480;
-    engine->r = 0xDA;
-    engine->g = 0x47;
-    engine->b = 0x47;
+    engine->bgcolor = 0xdadadaff;
 
     //Init SDL 2;
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -36,7 +34,9 @@ int EngineInit(Engine* engine, int argc, char* args[]) //initialize SDL in main 
     strncat(name, spec_version, nameLength - strlen(name)- 1);
 
 
-    engine->gWindow = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, engine->width, engine->height, SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
+    engine->gWindow = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                       engine->width, engine->height,
+                                       SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
     if( engine->gWindow == NULL )
     {
         printf("Can't create window! SDL_Error: %s\n", SDL_GetError());
@@ -67,11 +67,9 @@ int EngineQuit(Engine* engine)
     return 0;
 }
 
-int ChangeColorBack(Engine *e, int r, int g, int b)
+int EngineChangeBackgroundColor(Engine *engine, int color)
 {
-    e->b = b;
-    e->r = r;
-    e->g = g;
+    engine->bgcolor = color;
     return 0;
 }
 
@@ -80,12 +78,15 @@ int EngineRun(Engine* engine)
 {
     SDL_Event e;
     Button exitButton, colorButton, bigButton;
-    ButtonInit(&exitButton, engine->width-32, 0, 32, 24);
-    ButtonInit(&colorButton, 0, 0, 32, 24);
-    ButtonInit(&bigButton, 50, 50, 100, 100);
+    DragArea testDrag;
+    DragAreaInit(&testDrag, 10, 180, 80, 80, 0x0caa0cff);
+    ButtonInit(&exitButton, engine->width-32, 0, 32, 24, 0xE14E52ff);
+    ButtonInit(&colorButton, 0, 0, 32, 24, 0xaaaaaaff);
+    ButtonInit(&bigButton, 50, 50, 100, 100, 0xaaaaaaff);
 
     while(!engine->done) //main loop;
     {
+        DragAreaReset(&testDrag);
         //Handle events;
         while(SDL_PollEvent(&e) != 0)
         {
@@ -96,30 +97,32 @@ int EngineRun(Engine* engine)
             ButtonHandle(&exitButton, e);
             ButtonHandle(&colorButton, e);
             ButtonHandle(&bigButton, e);
+            DragAreaHandle(&testDrag, e);
 
         }
 
-        if(exitButton.clicked) //exit from the programm
+        if(exitButton.clicked)
             engine->done = true;
 
         //Render;
-        SDL_SetRenderDrawColor(engine->gRenderer, engine->r, engine->g, engine->b, 0xFF);
+        SDL_SetRenderDrawColor(engine->gRenderer,
+                               (uint8_t) (engine->bgcolor>>24),
+                               (uint8_t) (engine->bgcolor>>16),
+                               (uint8_t) (engine->bgcolor>>8),
+                               (uint8_t) (engine->bgcolor));
         SDL_RenderClear(engine->gRenderer);
 
 
         ButtonRender(&exitButton);
         ButtonRender(&colorButton);
         ButtonRender(&bigButton);
+        DragAreaRender(&testDrag);
 
-        if (colorButton.clicked) //change the color of background
-        {
-            ChangeColorBack(engine, 0x61, 0xAC, 0xE1);
-        }
+        if (colorButton.clicked)
+            EngineChangeBackgroundColor(engine, 0x61ACE1FF);
 
-        if (bigButton.clicked) //change the color of this button
-        {
-            ChangeColorButton(&bigButton, 0xE1, 0x7F, 0x61);
-        }
+        if (bigButton.clicked)
+            ButtonSetColor(&bigButton, 0xE17F61FF);
 
         //----------------
         SDL_RenderPresent(engine->gRenderer);
