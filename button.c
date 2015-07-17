@@ -1,5 +1,5 @@
 //
-// Created by zemuvier on 16.07.2015.
+// Created by zemuvier on 17.07.2015.
 //
 
 #include "button.h"
@@ -12,12 +12,15 @@ int ButtonInit(Button *button, int x, int y, int w, int h)
     button->area.w = w;
     button->area.h = h;
     button->clicked = false;
+    button->a = 0xFF;
+    button->b = 0xFF;
+    button->c = 0xFF;
     return 0;
 }
 
 int ButtonRender(Button *button)
 {
-    SDL_SetRenderDrawColor(mainEngine->gRenderer, 0x9B, 0x4E, 0x4E, 0x9B);
+    SDL_SetRenderDrawColor(mainEngine->gRenderer, button->a, button->b, button->c, 0xFF);
     SDL_RenderFillRect(mainEngine->gRenderer, &(button->area));
     return 0;
 }
@@ -41,9 +44,10 @@ int ButtonHandle(Button *button, SDL_Event event)
     return 0;
 }
 
-int ChangeColorButton(Button *but, int a, int b, int c)
+int ChangeColorButton(Button *button, int r, int g, int b)
 {
-    SDL_SetRenderDrawColor(mainEngine->gRenderer, a, b, c, 0xFF);
-    SDL_RenderFillRect(mainEngine->gRenderer, &(but->area));
+    button->a = r;
+    button->b = g;
+    button->c = b;
     return 0;
 }

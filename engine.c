@@ -1,5 +1,6 @@
 //
 // Created by mauris on 14.07.2015.
+// Created by zemuvier on 17.07.2015.
 //
 
 #include "engine.h"
@@ -17,6 +18,9 @@ int EngineInit(Engine* engine, int argc, char* args[]) //initialize SDL in main 
 
     engine->width = 640;
     engine->height = 480;
+    engine->r = 0xDA;
+    engine->g = 0x47;
+    engine->b = 0x47;
 
     //Init SDL 2;
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -63,10 +67,11 @@ int EngineQuit(Engine* engine)
     return 0;
 }
 
-int ChangeColorBack(Engine *e, int a, int b, int c)
+int ChangeColorBack(Engine *e, int r, int g, int b)
 {
-    SDL_SetRenderDrawColor(e->gRenderer, a, b, c, 0xFF);
-    SDL_RenderClear(e->gRenderer);
+    e->b = b;
+    e->r = r;
+    e->g = g;
     return 0;
 }
 
@@ -98,21 +103,22 @@ int EngineRun(Engine* engine)
             engine->done = true;
 
         //Render;
-        ChangeColorBack(engine, 0xAF, 0xAF, 0xAF);
+        SDL_SetRenderDrawColor(engine->gRenderer, engine->r, engine->g, engine->b, 0xFF);
+        SDL_RenderClear(engine->gRenderer);
 
+
+        ButtonRender(&exitButton);
+        ButtonRender(&colorButton);
+        ButtonRender(&bigButton);
 
         if (colorButton.clicked) //change the color of background
         {
             ChangeColorBack(engine, 0x61, 0xAC, 0xE1);
         }
 
-        ButtonRender(&exitButton);
-        ButtonRender(&colorButton);
-        ButtonRender(&bigButton);
-
         if (bigButton.clicked) //change the color of this button
         {
-           ChangeColorButton(&bigButton, 0xE1, 0x7F, 0x61);
+            ChangeColorButton(&bigButton, 0xE1, 0x7F, 0x61);
         }
 
         //----------------

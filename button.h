@@ -1,5 +1,5 @@
 //
-// Created by zemuvier on 16.07.2015.
+// Created by zemuvier on 17.07.2015.
 //
 
 #ifndef SUMMERTIME_BUTTON_H
@@ -12,12 +12,13 @@ typedef struct
 {
     SDL_Rect area;
     bool clicked;
+    int a, b, c;
 } Button;
 
 extern int ButtonInit(Button *button, int x, int y, int w, int h);
 extern int ButtonRender(Button *button);
 extern int ButtonHandle(Button *button, SDL_Event event);
-extern int ChangeColorButton(Button *but, int a, int b, int c);
+extern int ChangeColorButton(Button *but, int r, int g, int b);
 
 
 #endif //SUMMERTIME_BUTTON_H

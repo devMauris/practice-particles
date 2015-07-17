@@ -20,14 +20,14 @@ typedef struct
 {
     SDL_Window *gWindow;
     SDL_Renderer* gRenderer;
-    int width, height;
+    int width, height, r, g, b;
     bool done;
 } Engine;
 
 extern int EngineInit(Engine* engine, int argc, char* args[]); //initialize SDL in main thread
 extern int EngineQuit(Engine* engine);
 extern int EngineRun(Engine* engine);
-extern int ChangeColorBack(Engine *e, int a, int b, int c);
+extern int ChangeColorBack(Engine *e, int r, int g, int b);
 
 extern Engine* mainEngine; //to have access from every module;
 #endif //SUMMERTIME_ENGINE_H
