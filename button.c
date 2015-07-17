@@ -29,7 +29,7 @@ int ButtonRender(Button *button)
 
 int ButtonHandle(Button *button, SDL_Event event)
 {
-    if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
+    if (event.type == SDL_MOUSEBUTTONDOWN)
     {
         //now check if it inside our area
         int x = 0, y = 0;
