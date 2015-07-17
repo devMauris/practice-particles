@@ -4,7 +4,6 @@
 
 #include "engine.h"
 #include "button.h"
-#include "dragarea.h"
 
 Engine* mainEngine; //to have access from every module;
 
@@ -67,14 +66,13 @@ int EngineQuit(Engine* engine)
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
-    Button exitButton;
+    Button exitButton, colorButton, bigButton;
     ButtonInit(&exitButton, engine->width-32, 0, 32, 24);
-    DragArea windowDrag;
-    DragAreaInit(&windowDrag, 0, 0, engine->width, 24);
+    ButtonInit(&colorButton, 0, 0, 32, 24);
+    ButtonInit(&bigButton, 50, 50, 100, 100);
 
     while(!engine->done) //main loop;
     {
-        DragAreaReset(&windowDrag);
         //Handle events;
         while(SDL_PollEvent(&e) != 0)
         {
@@ -83,31 +81,33 @@ int EngineRun(Engine* engine)
                 engine->done = true;
             }
             ButtonHandle(&exitButton, e);
-            DragAreaHandle(&windowDrag, e);
-        }
-        //----------------
-        //Update;
+            ButtonHandle(&colorButton, e);
+            ButtonHandle(&bigButton, e);
 
-        if(exitButton.clicked)
+        }
+
+        if(exitButton.clicked) //exit from the programm
             engine->done = true;
-
-        if (windowDrag.dragged)
-        {
-            int x, y;
-            SDL_GetWindowPosition(engine->gWindow, &x, &y);
-            int dx, dy;
-            DragAreaGetDrag(&windowDrag, &dx, &dy);
-            SDL_SetWindowPosition(engine->gWindow, x + dx, y + dy);
-        }
-        //----------------
 
         //Render;
         SDL_SetRenderDrawColor(engine->gRenderer, 0xAF, 0xAF, 0xAF, 0xAF);
         SDL_RenderClear(engine->gRenderer);
 
-        DragAreaRender(&windowDrag);
-        ButtonRender(&exitButton);
+        if (colorButton.clicked) //change the color of background
+        {
+            SDL_SetRenderDrawColor(engine->gRenderer, 0xFF, 0x00, 0xFF, 0xFF);
+            SDL_RenderClear(engine->gRenderer);
+        }
 
+        ButtonRender(&exitButton);
+        ButtonRender(&colorButton);
+        ButtonRender(&bigButton);
+
+        if (bigButton.clicked) //change the color of this button
+        {
+            SDL_SetRenderDrawColor(mainEngine->gRenderer, 0xFF, 0x66, 0x99, 0x99);
+            SDL_RenderFillRect(mainEngine->gRenderer, &(bigButton.area));
+        }
 
         //----------------
         SDL_RenderPresent(engine->gRenderer);
