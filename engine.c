@@ -4,6 +4,7 @@
 
 #include "engine.h"
 #include "button.h"
+#include "dragarea.h"
 
 Engine* mainEngine; //to have access from every module;
 
@@ -68,9 +69,12 @@ int EngineRun(Engine* engine)
     SDL_Event e;
     Button exitButton;
     ButtonInit(&exitButton, engine->width-32, 0, 32, 24);
+    DragArea windowDrag;
+    DragAreaInit(&windowDrag, 0, 0, engine->width, 24);
 
     while(!engine->done) //main loop;
     {
+        DragAreaReset(&windowDrag);
         //Handle events;
         while(SDL_PollEvent(&e) != 0)
         {
@@ -79,7 +83,7 @@ int EngineRun(Engine* engine)
                 engine->done = true;
             }
             ButtonHandle(&exitButton, e);
-
+            DragAreaHandle(&windowDrag, e);
         }
         //----------------
         //Update;
@@ -87,14 +91,23 @@ int EngineRun(Engine* engine)
         if(exitButton.clicked)
             engine->done = true;
 
+        if (windowDrag.dragged)
+        {
+            int x, y;
+            SDL_GetWindowPosition(engine->gWindow, &x, &y);
+            int dx, dy;
+            DragAreaGetDrag(&windowDrag, &dx, &dy);
+            SDL_SetWindowPosition(engine->gWindow, x + dx, y + dy);
+        }
         //----------------
 
         //Render;
         SDL_SetRenderDrawColor(engine->gRenderer, 0xAF, 0xAF, 0xAF, 0xAF);
         SDL_RenderClear(engine->gRenderer);
 
-
+        DragAreaRender(&windowDrag);
         ButtonRender(&exitButton);
+
 
         //----------------
         SDL_RenderPresent(engine->gRenderer);

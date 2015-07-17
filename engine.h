@@ -15,6 +15,7 @@
 
 #include "spec.h"
 #include "button.h"
+#include "dragarea.h"
 
 typedef struct
 {

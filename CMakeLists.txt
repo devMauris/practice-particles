@@ -9,6 +9,8 @@ set(SOURCE_FILES
     spec.c
     button.c
     button.h
+    dragarea.h
+    dragarea.c
 )
 add_executable(summertime ${SOURCE_FILES})
 
