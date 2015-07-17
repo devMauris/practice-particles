@@ -40,3 +40,10 @@ int ButtonHandle(Button *button, SDL_Event event)
 
     return 0;
 }
+
+int ChangeColorButton(Button *but, int a, int b, int c)
+{
+    SDL_SetRenderDrawColor(mainEngine->gRenderer, a, b, c, 0xFF);
+    SDL_RenderFillRect(mainEngine->gRenderer, &(but->area));
+    return 0;
+}

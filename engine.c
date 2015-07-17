@@ -63,6 +63,14 @@ int EngineQuit(Engine* engine)
     return 0;
 }
 
+int ChangeColorBack(Engine *e, int a, int b, int c)
+{
+    SDL_SetRenderDrawColor(e->gRenderer, a, b, c, 0xFF);
+    SDL_RenderClear(e->gRenderer);
+    return 0;
+}
+
+
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
@@ -90,13 +98,12 @@ int EngineRun(Engine* engine)
             engine->done = true;
 
         //Render;
-        SDL_SetRenderDrawColor(engine->gRenderer, 0xAF, 0xAF, 0xAF, 0xAF);
-        SDL_RenderClear(engine->gRenderer);
+        ChangeColorBack(engine, 0xAF, 0xAF, 0xAF);
+
 
         if (colorButton.clicked) //change the color of background
         {
-            SDL_SetRenderDrawColor(engine->gRenderer, 0xFF, 0x00, 0xFF, 0xFF);
-            SDL_RenderClear(engine->gRenderer);
+            ChangeColorBack(engine, 0x61, 0xAC, 0xE1);
         }
 
         ButtonRender(&exitButton);
@@ -105,8 +112,7 @@ int EngineRun(Engine* engine)
 
         if (bigButton.clicked) //change the color of this button
         {
-            SDL_SetRenderDrawColor(mainEngine->gRenderer, 0xFF, 0x66, 0x99, 0x99);
-            SDL_RenderFillRect(mainEngine->gRenderer, &(bigButton.area));
+           ChangeColorButton(&bigButton, 0xE1, 0x7F, 0x61);
         }
 
         //----------------

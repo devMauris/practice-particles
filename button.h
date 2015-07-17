@@ -17,5 +17,7 @@ typedef struct
 extern int ButtonInit(Button *button, int x, int y, int w, int h);
 extern int ButtonRender(Button *button);
 extern int ButtonHandle(Button *button, SDL_Event event);
+extern int ChangeColorButton(Button *but, int a, int b, int c);
+
 
 #endif //SUMMERTIME_BUTTON_H
