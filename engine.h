@@ -28,7 +28,7 @@ typedef struct
 extern int EngineInit(Engine* engine, int argc, char* args[]); //initialize SDL in main thread
 extern int EngineQuit(Engine* engine);
 extern int EngineRun(Engine* engine);
-extern int EngineChangeBackgroundColor(Engine *engine, int color);
+extern int EngineSetBackgroundColor(Engine *engine, int color);
 
 extern Engine* mainEngine; //to have access from every module;
 #endif //SUMMERTIME_ENGINE_H

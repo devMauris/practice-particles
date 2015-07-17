@@ -36,7 +36,7 @@ int EngineInit(Engine* engine, int argc, char* args[]) //initialize SDL in main 
 
     engine->gWindow = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                        engine->width, engine->height,
-                                       SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
+                                       SDL_WINDOW_SHOWN);
     if( engine->gWindow == NULL )
     {
         printf("Can't create window! SDL_Error: %s\n", SDL_GetError());
@@ -67,7 +67,7 @@ int EngineQuit(Engine* engine)
     return 0;
 }
 
-int EngineChangeBackgroundColor(Engine *engine, int color)
+int EngineSetBackgroundColor(Engine *engine, int color)
 {
     engine->bgcolor = color;
     return 0;
@@ -77,10 +77,9 @@ int EngineChangeBackgroundColor(Engine *engine, int color)
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
-    Button exitButton, colorButton, bigButton;
+    Button colorButton, bigButton;
     DragArea testDrag;
     DragAreaInit(&testDrag, 10, 180, 80, 80, 0x0caa0cff);
-    ButtonInit(&exitButton, engine->width-32, 0, 32, 24, 0xE14E52ff);
     ButtonInit(&colorButton, 0, 0, 32, 24, 0xaaaaaaff);
     ButtonInit(&bigButton, 50, 50, 100, 100, 0xaaaaaaff);
 
@@ -94,15 +93,13 @@ int EngineRun(Engine* engine)
             {
                 engine->done = true;
             }
-            ButtonHandle(&exitButton, e);
             ButtonHandle(&colorButton, e);
             ButtonHandle(&bigButton, e);
             DragAreaHandle(&testDrag, e);
 
         }
 
-        if(exitButton.clicked)
-            engine->done = true;
+
 
         //Render;
         SDL_SetRenderDrawColor(engine->gRenderer,
@@ -113,13 +110,12 @@ int EngineRun(Engine* engine)
         SDL_RenderClear(engine->gRenderer);
 
 
-        ButtonRender(&exitButton);
         ButtonRender(&colorButton);
         ButtonRender(&bigButton);
         DragAreaRender(&testDrag);
 
         if (colorButton.clicked)
-            EngineChangeBackgroundColor(engine, 0x61ACE1FF);
+            EngineSetBackgroundColor(engine, 0x61ACE1FF);
 
         if (bigButton.clicked)
             ButtonSetColor(&bigButton, 0xE17F61FF);
