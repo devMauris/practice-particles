@@ -70,8 +70,6 @@ int EngineQuit(Engine* engine)
 int EngineSetBackgroundColor(Engine *engine, Button *button, int color)
 {
     engine->bgcolor = color;
-    button->released = true;
-    button->clicked = false;
     return 0;
 }
 
@@ -83,6 +81,8 @@ int EngineRun(Engine* engine)
     DragAreaInit(&testDrag, 10, 180, 80, 80, 0x0caa0cff);
     ButtonInit(&colorButton, 0, 0, 32, 24, 0xaaaaaaff);
     ButtonInit(&bigButton, 50, 50, 100, 100, 0xaaaaaaff);
+    ButtonReset(&colorButton);
+    ButtonReset(&bigButton);
 
     while(!engine->done) //main loop;
     {
@@ -114,16 +114,10 @@ int EngineRun(Engine* engine)
         DragAreaRender(&testDrag);
 
         if (colorButton.clicked)
-        {
-            while (colorButton.released == false)
                 EngineSetBackgroundColor(engine, &colorButton, 0x61ACE1FF);
-        }
 
         if (bigButton.clicked)
-        {
-            while (bigButton.released == false)
-                ButtonSetColor(&bigButton, 0xE17F61FF);
-        }
+            ButtonSetColor(&bigButton, 0xE17F61FF);
 
         //----------------
         SDL_RenderPresent(engine->gRenderer);

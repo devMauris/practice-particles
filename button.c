@@ -44,13 +44,27 @@ int ButtonHandle(Button *button, SDL_Event event)
         }
     }
 
+    if (event.type == SDL_MOUSEBUTTONUP)
+    {
+        button->released = true;
+        button->clicked = false;
+    }
+
     return 0;
 }
 
 int ButtonSetColor(Button *button, int color)
 {
     button->color = color;
-    button->released = true;
-    button->clicked = false;
+    return 0;
+}
+
+int ButtonReset(Button *button)
+{
+    if (!button->clicked)
+    {
+        button->clicked = false;
+        button->released = false;
+    }
     return 0;
 }
