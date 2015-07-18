@@ -81,12 +81,12 @@ int EngineRun(Engine* engine)
     DragAreaInit(&testDrag, 10, 180, 80, 80, 0x0caa0cff);
     ButtonInit(&colorButton, 0, 0, 32, 24, 0xaaaaaaff);
     ButtonInit(&bigButton, 50, 50, 100, 100, 0xaaaaaaff);
-    ButtonReset(&colorButton);
-    ButtonReset(&bigButton);
 
     while(!engine->done) //main loop;
     {
         DragAreaReset(&testDrag);
+        ButtonReset(&colorButton);
+        ButtonReset(&bigButton);
         //Handle events;
         while(SDL_PollEvent(&e) != 0)
         {
@@ -116,7 +116,7 @@ int EngineRun(Engine* engine)
         if (colorButton.clicked)
                 EngineSetBackgroundColor(engine, &colorButton, 0x61ACE1FF);
 
-        if (bigButton.clicked)
+        if (bigButton.released)
             ButtonSetColor(&bigButton, 0xE17F61FF);
 
         //----------------

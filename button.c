@@ -47,7 +47,6 @@ int ButtonHandle(Button *button, SDL_Event event)
     if (event.type == SDL_MOUSEBUTTONUP)
     {
         button->released = true;
-        button->clicked = false;
     }
 
     return 0;
