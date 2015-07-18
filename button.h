@@ -11,7 +11,7 @@
 typedef struct
 {
     SDL_Rect area;
-    bool clicked;
+    bool clicked, released;
     int color;
 } Button;
 

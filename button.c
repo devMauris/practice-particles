@@ -12,6 +12,7 @@ int ButtonInit(Button *button, int x, int y, int w, int h, int color)
     button->area.w = w;
     button->area.h = h;
     button->clicked = false;
+    button->released = false;
     button->color = color;
     return 0;
 }
@@ -49,5 +50,7 @@ int ButtonHandle(Button *button, SDL_Event event)
 int ButtonSetColor(Button *button, int color)
 {
     button->color = color;
+    button->released = true;
+    button->clicked = false;
     return 0;
 }
