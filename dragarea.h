@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include <stdbool.h>
+#include "button.h"
 
 typedef struct
 {
@@ -23,5 +24,6 @@ extern int DragAreaGetDrag(DragArea *dragArea, int *x, int *y);
 extern int DragAreaHandle(DragArea *dragArea, SDL_Event e);
 extern int DragAreaRender(DragArea *dragArea);
 extern int DragAreaSetColor(DragArea *dragArea, int color);
+extern int DragAreaSlider(DragArea *dragArea, Button *button, SDL_Event e);
 
 #endif //SUMMERTIME_DRAGAREA_H

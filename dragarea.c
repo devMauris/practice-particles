@@ -4,6 +4,7 @@
 
 #include "dragarea.h"
 #include "engine.h"
+#include "button.h"
 
 int DragAreaInit(DragArea *dragArea, int x, int y, int w, int h, int color)
 {
@@ -85,5 +86,13 @@ int DragAreaRender(DragArea *dragArea)
                            dragArea->drag_begin.x, dragArea->drag_begin.y,
                            dragArea->drag_end.x, dragArea->drag_end.y);
     }
+    return 0;
+}
+
+int DragAreaSlider(DragArea *dragArea, Button *button, SDL_Event e)
+{
+    if (dragArea->area.x > button->area.x && dragArea->area.x < button->area.x + button->area.w
+        && dragArea->area.y > button->area.y && dragArea->area.y < button->area.y + button->area.h)
+            DragAreaHandle(dragArea, e);
     return 0;
 }
