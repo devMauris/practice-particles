@@ -90,7 +90,12 @@ int EngineRun(Engine* engine)
 
     while(!engine->done) //main loop;
     {
+        ButtonReset(&colorButton);
+        ButtonReset(&bigButton);
+        ButtonReset(&sliderButton);
+
         DragAreaReset(&testDrag);
+        DragAreaReset(&sliderDrag);
         //Handle events;
         while(SDL_PollEvent(&e) != 0)
         {
@@ -102,7 +107,7 @@ int EngineRun(Engine* engine)
             ButtonHandle(&bigButton, e);
 
             DragAreaHandle(&testDrag, e);
-            DragAreaSlider(&sliderDrag, &sliderButton, e);
+            DragAreaSlider(&sliderDrag, &sliderButton, e);  //wut???
 
         }
 
