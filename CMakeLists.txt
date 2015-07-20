@@ -11,9 +11,10 @@ set(SOURCE_FILES
     button.h
     dragarea.h
     dragarea.c
+    slide.cpp
+    slide.h
 )
-add_executable(summertime ${SOURCE_FILES})
-
+add_executable(summertime ${SOURCE_FILES} slide.h slide.cpp)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -std=c11")
 IF(MINGW)

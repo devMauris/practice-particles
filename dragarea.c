@@ -88,11 +88,3 @@ int DragAreaRender(DragArea *dragArea)
     }
     return 0;
 }
-
-int DragAreaSlider(DragArea *dragArea, Button *button, SDL_Event e)
-{
-    if (dragArea->area.x > button->area.x && dragArea->area.x < button->area.x + button->area.w
-        && dragArea->area.y > button->area.y && dragArea->area.y < button->area.y + button->area.h)
-            DragAreaHandle(dragArea, e);
-    return 0;
-}

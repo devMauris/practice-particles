@@ -6,6 +6,7 @@
 #include "engine.h"
 #include "button.h"
 #include "dragarea.h"
+#include "slide.h"
 
 Engine* mainEngine; //to have access from every module;
 
@@ -78,24 +79,22 @@ int EngineSetBackgroundColor(Engine *engine, int color)
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
-    Button colorButton, bigButton, sliderButton;
-    DragArea testDrag, sliderDrag;
+    Button colorButton, bigButton;
+    DragArea testDrag;
+    Slider slider;
 
     DragAreaInit(&testDrag, 10, 180, 80, 80, 0x0caa0cff);
-    DragAreaInit(&sliderDrag, 160, 160, 20, 30, 0x21228e);
+    SliderInit(&slider, 5, 180, 300, 0x0caa0cff);
 
     ButtonInit(&colorButton, 0, 0, 32, 24, 0xaaaaaaff);
     ButtonInit(&bigButton, 50, 50, 100, 100, 0xaaaaaaff);
-    ButtonInit(&sliderButton, 150, 150, 160, 70, 0xf6b6fb);
 
     while(!engine->done) //main loop;
     {
         ButtonReset(&colorButton);
         ButtonReset(&bigButton);
-        ButtonReset(&sliderButton);
-
         DragAreaReset(&testDrag);
-        DragAreaReset(&sliderDrag);
+        SliderReset(&slider);
         //Handle events;
         while(SDL_PollEvent(&e) != 0)
         {
@@ -105,9 +104,8 @@ int EngineRun(Engine* engine)
             }
             ButtonHandle(&colorButton, e);
             ButtonHandle(&bigButton, e);
-
             DragAreaHandle(&testDrag, e);
-            DragAreaSlider(&sliderDrag, &sliderButton, e);  //wut???
+            SliderHandle(&slider, &testDrag, e);
 
         }
 
@@ -122,10 +120,10 @@ int EngineRun(Engine* engine)
 
         ButtonRender(&colorButton);
         ButtonRender(&bigButton);
-        ButtonRender(&sliderButton);
 
         DragAreaRender(&testDrag);
-        DragAreaRender(&sliderDrag);
+
+        SliderRender(&slider);
 
         if (colorButton.clicked)
             EngineSetBackgroundColor(engine, 0x61ACE1FF);
