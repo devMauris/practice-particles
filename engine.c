@@ -84,7 +84,7 @@ int EngineRun(Engine* engine)
     Slider slider;
 
     DragAreaInit(&testDrag, 10, 180, 80, 80, 0x0caa0cff);
-    SliderInit(&slider, 5, 180, 300, 0x0caa0cff);
+    SliderInit(&slider, 155, 80, 300, 0x0caa0cff);
 
     ButtonInit(&colorButton, 0, 0, 32, 24, 0xaaaaaaff);
     ButtonInit(&bigButton, 50, 50, 100, 100, 0xaaaaaaff);
@@ -105,7 +105,7 @@ int EngineRun(Engine* engine)
             ButtonHandle(&colorButton, e);
             ButtonHandle(&bigButton, e);
             DragAreaHandle(&testDrag, e);
-            SliderHandle(&slider, &testDrag, e);
+            SliderHandle(&slider, e);
 
         }
 

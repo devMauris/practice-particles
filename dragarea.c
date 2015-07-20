@@ -4,7 +4,6 @@
 
 #include "dragarea.h"
 #include "engine.h"
-#include "button.h"
 
 int DragAreaInit(DragArea *dragArea, int x, int y, int w, int h, int color)
 {
@@ -36,6 +35,8 @@ int DragAreaGetDrag(DragArea *dragArea, int *x, int *y)
         *y = dragArea->drag_end.y - dragArea->drag_begin.y;
         return 0;
     }
+    *x = 0;
+    *y = 0;
     return 1;
 }
 
