@@ -37,7 +37,7 @@ int SliderHandle(Slider *slider, SDL_Event event)
     if(slider->dragArea.area.x > slider->area.x + slider->area.w)
     {
         slider->dragArea.drag_begin.x += slider->area.x + slider->area.w - slider->dragArea.area.x; //we need to fix this as well
-        slider->dragArea.area.x = slider->area.x + slider->area.w;
+        slider->dragArea.area.x = slider->area.x + slider->area.w - slider->dragArea.area.w;
     }
 
 
