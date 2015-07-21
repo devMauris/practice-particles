@@ -20,5 +20,6 @@ extern int SliderInit(Slider *slider, int x, int y, int w, int color);
 extern int SliderHandle(Slider *slider, SDL_Event event);
 extern int SliderRender(Slider *slider);
 extern int SliderReset(Slider *slider);
+extern int SliderNumber(Slider *slider);
 
 #endif //SUMMERTIME_SLIDE_H

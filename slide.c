@@ -22,7 +22,6 @@ int SliderInit(Slider *slider, int x, int y, int w, int color)
 int SliderHandle(Slider *slider, SDL_Event event)
 {
     DragAreaHandle(&slider->dragArea, event);   //let it do it's thing
-
     int x, y;
     DragAreaGetDrag(&slider->dragArea, &x, &y); //get results
     slider->dragArea.area.x += x;
@@ -63,5 +62,13 @@ int SliderRender(Slider *slider)
 int SliderReset(Slider *slider)
 {
     DragAreaReset(&slider->dragArea);
+    return 0;
+}
+
+int SliderNumber(Slider *slider)
+{
+    float number = 0.0;
+    number = (float)(slider->dragArea.area.x - slider->area.x)/(float)(slider->area.w - slider->dragArea.area.w);
+    printf("%.2f ", number);
     return 0;
 }

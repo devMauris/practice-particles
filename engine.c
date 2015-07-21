@@ -131,6 +131,9 @@ int EngineRun(Engine* engine)
         if (bigButton.clicked)
             ButtonSetColor(&bigButton, 0xE17F61FF);
 
+        if (!slider.dragArea.dragging && slider.dragArea.dragged)
+            SliderNumber(&slider);
+
         //----------------
         SDL_RenderPresent(engine->gRenderer);
         SDL_Delay(16);
