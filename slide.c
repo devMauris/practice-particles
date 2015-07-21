@@ -65,10 +65,9 @@ int SliderReset(Slider *slider)
     return 0;
 }
 
-int SliderNumber(Slider *slider)
+float SliderNumber(Slider *slider)
 {
     float number = 0.0;
-    number = (float)(slider->dragArea.area.x - slider->area.x)/(float)(slider->area.w - slider->dragArea.area.w);
-    printf("%.2f ", number);
-    return 0;
+    number = (float) (slider->dragArea.area.x - slider->area.x) / (float) (slider->area.w - slider->dragArea.area.w);
+    return number;
 }

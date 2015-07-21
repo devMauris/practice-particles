@@ -132,7 +132,7 @@ int EngineRun(Engine* engine)
             ButtonSetColor(&bigButton, 0xE17F61FF);
 
         if (!slider.dragArea.dragging && slider.dragArea.dragged)
-            SliderNumber(&slider);
+            printf("%.2f ", SliderNumber(&slider));
 
         //----------------
         SDL_RenderPresent(engine->gRenderer);
