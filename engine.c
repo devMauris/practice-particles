@@ -78,25 +78,15 @@ int EngineSetBackgroundColor(Engine *engine, int color)
 int EngineRun(Engine* engine)
 {
     SDL_Event e;
-    Button colorButton, bigButton;
-    DragArea testDrag;
     Slider sliderR, sliderG, sliderB;
 
-    DragAreaInit(&testDrag, 10, 180, 80, 80, 0x0caa0cff);
-    SliderInit(&sliderR, 155, 80, 300, 0xf90505);
-    SliderInit(&sliderG, 155, 110, 300, 0x19f905);
-    SliderInit(&sliderB, 155, 140, 300, 0x1a01d9);
+    SliderInit(&sliderR, 55, 80, 300, 0xAA0000FF);
+    SliderInit(&sliderG, 55, 110, 300, 0x00AA00FF);
+    SliderInit(&sliderB, 55, 140, 300, 0x0000AAFF);
 
-    ButtonInit(&colorButton, 0, 0, 32, 24, 0xaaaaaaff);
-    ButtonInit(&bigButton, 50, 50, 100, 100, 0xaaaaaaff);
 
     while(!engine->done) //main loop;
     {
-        ButtonReset(&colorButton);
-        ButtonReset(&bigButton);
-
-        DragAreaReset(&testDrag);
-
         SliderReset(&sliderR);
         SliderReset(&sliderG);
         SliderReset(&sliderB);
@@ -107,11 +97,6 @@ int EngineRun(Engine* engine)
             {
                 engine->done = true;
             }
-            ButtonHandle(&colorButton, e);
-            ButtonHandle(&bigButton, e);
-
-            DragAreaHandle(&testDrag, e);
-
             SliderHandle(&sliderR, e);
             SliderHandle(&sliderG, e);
             SliderHandle(&sliderB, e);
@@ -127,27 +112,14 @@ int EngineRun(Engine* engine)
         SDL_RenderClear(engine->gRenderer);
 
 
-        ButtonRender(&colorButton);
-        ButtonRender(&bigButton);
-
-        DragAreaRender(&testDrag);
-
         SliderRender(&sliderR);
         SliderRender(&sliderG);
         SliderRender(&sliderB);
 
-        if (colorButton.clicked)
-            EngineSetBackgroundColor(engine, 0x61ACE1FF);
 
-        if (bigButton.clicked)
-            ButtonSetColor(&bigButton, 0xE17F61FF);
+        EngineSetBackgroundColor(engine, (int)(SliderNumber(&sliderR) * 0xff)<<24|(int)(SliderNumber(&sliderG) * 0xff)<<16
+                              |(int)(SliderNumber(&sliderB) * 0xff)<<8 | 0xff);
 
-        if ((!sliderR.dragArea.dragging && sliderR.dragArea.dragged)|| (!sliderG.dragArea.dragging && sliderG.dragArea.dragged)
-            || (!sliderB.dragArea.dragging && sliderB.dragArea.dragged))
-        {
-            engine->bgcolor = (int)(SliderNumber(&sliderR) * 0xff)<<24|(int)(SliderNumber(&sliderG) * 0xff)<<16
-                              |(int)(SliderNumber(&sliderB) * 0xff)<<8;
-        }
 
         //----------------
         SDL_RenderPresent(engine->gRenderer);
