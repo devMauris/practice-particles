@@ -127,3 +127,13 @@ int EngineRun(Engine* engine)
     }
     return 0;
 }
+
+unsigned int TimerGetPassed(unsigned int time)
+{
+    return SDL_GetTicks() - time;
+}
+
+unsigned int TimerInit()
+{
+    return SDL_GetTicks();
+}

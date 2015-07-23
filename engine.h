@@ -30,6 +30,8 @@ extern int EngineInit(Engine* engine, int argc, char* args[]); //initialize SDL 
 extern int EngineQuit(Engine* engine);
 extern int EngineRun(Engine* engine);
 extern int EngineSetBackgroundColor(Engine *engine, int color);
+extern unsigned int TimerGetPassed(unsigned int time);
+extern unsigned int TimerInit();
 
 extern Engine* mainEngine; //to have access from every module;
 #endif //SUMMERTIME_ENGINE_H
