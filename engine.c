@@ -84,9 +84,13 @@ int EngineRun(Engine* engine)
     SliderInit(&sliderG, 55, 110, 300, 0x00AA00FF);
     SliderInit(&sliderB, 55, 140, 300, 0x0000AAFF);
 
+    //unsigned int timems;
+    //uint64_t timens;
 
     while(!engine->done) //main loop;
     {
+        //timems = TimerInit();
+        //timens = NanoTimerInit();
         SliderReset(&sliderR);
         SliderReset(&sliderG);
         SliderReset(&sliderB);
@@ -124,6 +128,7 @@ int EngineRun(Engine* engine)
         //----------------
         SDL_RenderPresent(engine->gRenderer);
         SDL_Delay(16);
+        //printf("%u %llu\n", TimerGetPassed(timems), NanoTimerGetPassed(timens));
     }
     return 0;
 }
@@ -138,12 +143,12 @@ unsigned int TimerInit()
     return SDL_GetTicks();
 }
 
-int NanoTimerInit()
+uint64_t NanoTimerInit()
 {
-    return (Uint64)SDL_GetPerformanceCounter() * 1000000000;
+    return (uint64_t)(SDL_GetPerformanceCounter()/(double)SDL_GetPerformanceFrequency() * 1000000000);
 }
 
-unsigned int NanoTimerGetPassed(unsigned int time)
+uint64_t NanoTimerGetPassed(uint64_t time)
 {
-    return (Uint64)((SDL_GetPerformanceCounter() - time)/SDL_GetPerformanceFrequency() * 1000000000);
+    return (uint64_t)(NanoTimerInit() - time);
 }

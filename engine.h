@@ -32,8 +32,8 @@ extern int EngineRun(Engine* engine);
 extern int EngineSetBackgroundColor(Engine *engine, int color);
 extern unsigned int TimerGetPassed(unsigned int time);
 extern unsigned int TimerInit();
-//extern int NanoTimerInit();
-extern unsigned int NanoTimerGetPassed(unsigned int time);
+extern uint64_t NanoTimerInit();
+extern uint64_t NanoTimerGetPassed(uint64_t time);
 
 extern Engine* mainEngine; //to have access from every module;
 #endif //SUMMERTIME_ENGINE_H
