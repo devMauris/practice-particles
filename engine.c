@@ -138,12 +138,12 @@ unsigned int TimerInit()
     return SDL_GetTicks();
 }
 
-/*int NanoTimerInit()
+int NanoTimerInit()
 {
-    return SDL_GetPerformanceCounter();
-}*/
+    return (Uint64)SDL_GetPerformanceCounter() * 1000000000;
+}
 
 unsigned int NanoTimerGetPassed(unsigned int time)
 {
-    return (Uint64)(SDL_GetTicks() - time)/SDL_GetPerformanceFrequency() * 1000000000;
+    return (Uint64)((SDL_GetPerformanceCounter() - time)/SDL_GetPerformanceFrequency() * 1000000000);
 }
