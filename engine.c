@@ -71,7 +71,10 @@ int EngineQuit(Engine* engine)
 
 int EngineSetBackgroundColor(Engine *engine, int color)
 {
+    uint64_t time;
+    time = NanoTimerInit();
     engine->bgcolor = color;
+    printf("%llu\n",NanoTimerGetPassed(time));
     return 0;
 }
 
@@ -84,13 +87,13 @@ int EngineRun(Engine* engine)
     SliderInit(&sliderG, 55, 110, 300, 0x00AA00FF);
     SliderInit(&sliderB, 55, 140, 300, 0x0000AAFF);
 
-    //unsigned int timems;
-    //uint64_t timens;
+    uint64_t time1, time;
 
     while(!engine->done) //main loop;
     {
-        //timems = TimerInit();
-        //timens = NanoTimerInit();
+        time1 = NanoTimerInit();
+        time = NanoTimerInit();
+
         SliderReset(&sliderR);
         SliderReset(&sliderG);
         SliderReset(&sliderB);
@@ -100,6 +103,7 @@ int EngineRun(Engine* engine)
             if(e.type == SDL_QUIT)
             {
                 engine->done = true;
+                printf("%llu\n",NanoTimerGetPassed(time1));
             }
             SliderHandle(&sliderR, e);
             SliderHandle(&sliderG, e);
@@ -128,7 +132,7 @@ int EngineRun(Engine* engine)
         //----------------
         SDL_RenderPresent(engine->gRenderer);
         SDL_Delay(16);
-        //printf("%u %llu\n", TimerGetPassed(timems), NanoTimerGetPassed(timens));
+        printf("%llu\n", NanoTimerGetPassed(time) - 16000000000);
     }
     return 0;
 }
