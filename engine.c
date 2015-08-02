@@ -71,10 +71,7 @@ int EngineQuit(Engine* engine)
 
 int EngineSetBackgroundColor(Engine *engine, int color)
 {
-    uint64_t time;
-    time = NanoTimerInit();
     engine->bgcolor = color;
-    printf("%llu\n",NanoTimerGetPassed(time));
     return 0;
 }
 
@@ -87,13 +84,11 @@ int EngineRun(Engine* engine)
     SliderInit(&sliderG, 55, 110, 300, 0x00AA00FF);
     SliderInit(&sliderB, 55, 140, 300, 0x0000AAFF);
 
-    uint64_t time1, time;
+    uint64_t profilingHandle, profilingLogic, profilingRender;
 
     while(!engine->done) //main loop;
     {
-        time1 = NanoTimerInit();
-        time = NanoTimerInit();
-
+        profilingHandle = NanoTimerInit();
         SliderReset(&sliderR);
         SliderReset(&sliderG);
         SliderReset(&sliderB);
@@ -103,15 +98,19 @@ int EngineRun(Engine* engine)
             if(e.type == SDL_QUIT)
             {
                 engine->done = true;
-                printf("%llu\n",NanoTimerGetPassed(time1));
             }
             SliderHandle(&sliderR, e);
             SliderHandle(&sliderG, e);
             SliderHandle(&sliderB, e);
 
         }
+        printf("h: %.4f ", NanoTimerGetPassed(profilingHandle)/1000000.f);
+        //----------
+        //Logic;
 
+        //----------
         //Render;
+        profilingRender = NanoTimerInit();
         SDL_SetRenderDrawColor(engine->gRenderer,
                                (uint8_t) (engine->bgcolor>>24),
                                (uint8_t) (engine->bgcolor>>16),
@@ -129,10 +128,10 @@ int EngineRun(Engine* engine)
                               |(int)(SliderNumber(&sliderB) * 0xff)<<8 | 0xff);
 
 
-        //----------------
         SDL_RenderPresent(engine->gRenderer);
+        printf("r: %.4f\n", NanoTimerGetPassed(profilingRender)/1000000.f);
+        //----------
         SDL_Delay(16);
-        printf("%llu\n", NanoTimerGetPassed(time) - 16000000000);
     }
     return 0;
 }

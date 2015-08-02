@@ -16,7 +16,7 @@ set(SOURCE_FILES
 )
 add_executable(summertime ${SOURCE_FILES})
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -std=c11")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -std=c11")
 IF(MINGW)
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 ENDIF(MINGW)
